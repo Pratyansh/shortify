@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Shortify - The Url Shortener</h1>
+        <form action="" id="shorten-form">
+            <div>
+                <label for="url">Enter URL:</label>
+                <input type="url" name="url" id="url" required>
+            </div>
+            <div>
+                <label for="shortcode">Enter shortCode:</label>
+                <input type="shortcode" name="shortCode" id="shortCode"shortCode required>
+            </div>
+            <button type="submit">Shorten</button>
+        </form>
+
+        <h2>Shortened URLs</h2>
+        <ul id="shortened-urls"></ul>
+    </div>
+
+    <!-- <script>
+        documment.getElementById('shorten-form').addEventListener('submit',(event)=>{
+            event.preventDefault();
+        })
+    </script> -->
+</body>
+</html>
