@@ -2,10 +2,14 @@ import {createServer} from "http";
 import {readFile, writeFile} from "fs/promises";
 import crypto from "crypto";
 import path from "path"; 
+import express from "express";
+
+const app=express();
 
 const port=3000;
 const DATA_FILE = path.join("data", "links.json");
 
+app.use(express.static("public"));
 
 const serveFile = async (res, filePath, contentType)=>{
     try{
@@ -35,6 +39,60 @@ const loadLinks = async () => {
 const saveLinks = async (links) => {
   await writeFile(DATA_FILE, JSON.stringify(links));
 };
+
+app.get("/",async(req,res)=>{
+    try {
+        const file=await readFile(path.join("views","index.html"));
+        const links = await loadLinks();
+
+        const content= file.toString().replaceAll(
+            "{{ shortened-urls }}",
+            Object.entries(links).map(([shortCode,url])=>{
+                `<li><a href="/${shortCode}" target="_blank">${req.host}/${shortCode}</a> - ${url}</li>`
+            })
+            .join("")
+        );
+        return res.send(content);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Internal server error");
+    }
+})
+
+app.post("/",async(req,res)=>{
+     try {
+        const {url, shortCode}=req.body;
+        const finalShortCode = shortCode || crypto.randomBytes(4).toString("hex");
+
+        if (!url){
+            res.status(400).send("Url is a required input");    
+        }
+        if (links[finalShortCode]) {
+            res.status(400).send("Short code already exists. Please choose another.")
+        }
+        links[finalShortCode] = url;
+        await saveLinks(links)
+        }
+      catch (error) {
+     }
+
+app.get("/:shortCode",async(req, res)=>{
+    try{
+        const {shortCode}=req.params;
+        const links= await loadLinks();
+        if(!links[shortCode]) return res.status(404).send("Error 404 occurred");
+        return res.redirect(links[shortCode]);
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).send("Internal server error"); 
+    }
+});
+
+})
+
+
 
 const server = createServer(async (req,res)=>{
     console.log("➡️ REQUEST:", req.method, req.url);
