@@ -9,70 +9,70 @@
 <body>
     <div class="container">
         <h1>Shortify - The Url Shortener</h1>
-        <form action="" id="shorten-form">
+        <form action="/" method="post">
             <div>
                 <label for="url">Enter URL:</label>
-                <input type="url" name="url" id="url" >
+                <input type="url" name="url" id="url" required >
             </div>
             <div>
-                <label for="shortcode">Enter shortCode:</label>
-                <input type="shortcode" name="shortCode" id="shortCode"shortCode required>
+                <label for="shortCode">Enter shortCode:</label>
+                <input type="shortcode" name="shortCode" id="shortCode" required>
             </div>
             <button type="submit">Shorten</button>
         </form>
 
         <h2>Shortened URLs</h2>
-        <ul id="shortened-urls">
+        <ul>
             {{ shortened-urls }}
         </ul>
     </div>
 
     <script>
             
-            const fetchShortenedURL = async () => {
-            const response = await fetch("/links");
-            const links = await response.json();
-            console.log("links ", links);
+    //         const fetchShortenedURL = async () => {
+    //         const response = await fetch("/links");
+    //         const links = await response.json();
+    //         console.log("links ", links);
 
-            const list = document.getElementById("shortened-urls");
-            list.innerHTML = "";
+    //         const list = document.getElementById("shortened-urls");
+    //         list.innerHTML = "";
 
-            for (const [shortCode, url] of Object.entries(links)) {
-                const li = document.createElement('li');
-                const truncatedURL = url.length >= 30 ? `${url.slice(0, 30)}...` : url;
-                li.innerHTML = `<a href="/${shortCode}" target="_blank">${window.location.origin}/${shortCode}</a> - ${truncatedURL}`
-                list.appendChild(li)
-            }
-        }
+    //         for (const [shortCode, url] of Object.entries(links)) {
+    //             const li = document.createElement('li');
+    //             const truncatedURL = url.length >= 30 ? `${url.slice(0, 30)}...` : url;
+    //             li.innerHTML = `<a href="/${shortCode}" target="_blank">${window.location.origin}/${shortCode}</a> - ${truncatedURL}`
+    //             list.appendChild(li)
+    //         }
+    //     }
 
-        document.getElementById('shorten-form').addEventListener('submit',async (event)=>{
-            event.preventDefault();
-            const formData=new FormData(event.target)
-            const url=formData.get("url");
-            const shortCode=formData.get("shortCode");
-            console.log(url, shortCode);
-             try {
-                    const response = await fetch("/shorten", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ url, shortCode })
-                    });
+    //     document.getElementById('shorten-form').addEventListener('submit',async (event)=>{
+    //         event.preventDefault();
+    //         const formData=new FormData(event.target)
+    //         const url=formData.get("url");
+    //         const shortCode=formData.get("shortCode");
+    //         console.log(url, shortCode);
+    //          try {
+    //                 const response = await fetch("/shorten", {
+    //                     method: "POST",
+    //                     headers: { "Content-Type": "application/json" },
+    //                     body: JSON.stringify({ url, shortCode })
+    //                 });
 
-                    if (response.ok) {
-                        fetchShortenedURL();
-                        alert("fomr submitted successfully");
-                        event.target.reset();
-                    } else {
-                        const errorMessage = await response.text();
-                        alert(errorMessage)
-                    }
+    //                 if (response.ok) {
+    //                     fetchShortenedURL();
+    //                     alert("fomr submitted successfully");
+    //                     event.target.reset();
+    //                 } else {
+    //                     const errorMessage = await response.JSON();
+    //                     alert(errorMessage)
+    //                 }
 
-                } catch (error) {
-                    console.log(error);
+    //             } catch (error) {
+    //                 console.log(error);
 
-                }
+    //             }
             
-        })
-    </script>
+    //     })
+    // </script>
 </body>
 </html>
