@@ -5,17 +5,8 @@ import { saveLinks,loadLinks } from "../models/shortener.models.js";
 
 export const getshortenerpage=async(req,res)=>{
     try {
-        const file= await readFile(path.join("views","index.html"));
         const links = await loadLinks();
-
-        const content= file.toString().replaceAll(
-            "{{ shortened-urls }}",
-            Object.entries(links).map(([shortCode,url])=>
-                `<li><a href="/${shortCode}" target="_blank">${req.host}/${shortCode}</a> - ${url}</li>`
-            )
-            .join("")
-        );
-        return res.send(content);
+        res.render("index",{links,host:req.host})
 
     } catch (error) {
         console.error(error);

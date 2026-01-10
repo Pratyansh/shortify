@@ -23,7 +23,20 @@
 
         <h2>Shortened URLs</h2>
         <ul>
-            {{ shortened-urls }}
+            <!-- {{shortened_urls}} -->
+            <!-- Object.entries(links).map(([shortCode,url])=>
+                `<li><a href="/${shortCode}" target="_blank">${host}/${shortCode}</a> - ${url}</li>`
+            )
+            .join("") -->
+
+            <% Object.entries(links).map(([shortCode,url])=>{ %>
+            <% const truncated_url= url.length>=30?`${url.slice(0,25)}...`: url %>
+                <li>
+                    <a href="/<%= shortCode %>" target="_blank"><%= host%>/<%= shortCode%>
+                    </a> - <%= truncated_url%>
+                </li>
+            <% });%>
+
         </ul>
     </div>
 

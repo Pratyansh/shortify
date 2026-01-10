@@ -10,7 +10,7 @@ const router= express.Router();
 router.get("/",getshortenerpage);
 
 router.post("/",postURLshortener)
-    
+        
 router.get("/:shortCode",redirectToShortlink);
 
 
