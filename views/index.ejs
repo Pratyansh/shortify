@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+        <%- include('./partials/header.ejs') %>
+
     <div class="container">
         <h1>Shortify - The Url Shortener</h1>
         <form action="/" method="post">
@@ -29,7 +31,7 @@
             )
             .join("") -->
 
-            <% Object.entries(links).map(([shortCode,url])=>{ %>
+            <% links.forEach(({shortCode,url})=>{ %>
             <% const truncated_url= url.length>=30?`${url.slice(0,25)}...`: url %>
                 <li>
                     <a href="/<%= shortCode %>" target="_blank"><%= host%>/<%= shortCode%>

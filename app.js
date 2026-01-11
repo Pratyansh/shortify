@@ -1,5 +1,6 @@
 import express from "express";
-import { shortener_router } from "./routes/shortener_routes.js";
+import { shortener_router } from "./routes/shortener.routes.js";
+import {authRoutes} from "./routes/auth.routes.js"
 
 const app=express();
 
@@ -8,6 +9,7 @@ const PORT=process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({extended:true}));
+app.use(authRoutes);
 app.use(shortener_router);
 
 app.set("view engine", "ejs");
